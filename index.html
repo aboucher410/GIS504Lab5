@@ -1,40 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-	  <title>Lab 5</title>
-
-	  <meta charset="utf-8" />
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
-
-		<style>
-		body {
-		    padding: 0;
-		    margin: 0;
-		}
-		.map {
-				position: absolute;
-		    height: 100%;
-		    width: 100vw;
-		}
-		</style>
-
+    <meta charset="utf-8" />
+    <title>Leaflet Routing Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css"><!--*note: this css file for Leaflet (and the js file below) is stored on unpkg.com, but we could also download it and store it locally, which is recommended for production purposes*/-->
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .map {
+            position: absolute;
+            width: 100vw;
+            height: 100%;
+        }
+    </style>
 </head>
-	<body>
-			<div id="map" class="map"></div>
+<body>
+    <div id="map" class="map"></div>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script>
+      var map = L.map('map').setView([47.25, -122.44], 11);
+      var control = L.Routing.control({
+          waypoints: [
+            null
+
+          ],
+          routeWhileDragging: true,
+          router: L.Routing.mapbox('pk.eyJ1Ijoia3plZWIiLCJhIjoiY2l1NXFvZTQ1MGh5eTJ6bGgwZzMzb2xhcyJ9.cKBxgvZoWhW-oGe6cQI4Kw'),
+          units: 'imperial',
+          geocoder: L.Control.Geocoder.nominatim()
+      }).addTo(map);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken: 'pk.eyJ1Ijoia3plZWIiLCJhIjoiY2l1NXFvZTQ1MGh5eTJ6bGgwZzMzb2xhcyJ9.cKBxgvZoWhW-oGe6cQI4Kw',
+}).addTo(map);
+      L.easyButton( '<span class="star">&starf;</span>', function (btn, map) {
+    map.locate({
+        setView: true,
+        maxZoom: 18
+    });
+}).addTo(map);
+      // Use map event 'locationfound' to perform some operations once the browser locates the user.
+map.on('locationfound', function (event) {
+    L.circle(event.latlng, event.accuracy).addTo(map);
+  var Test = L.popup().setContent("Your Location").setLatLng(event.latlng).addTo(map);
+});
+map.on('click', function(e) {
+    var container = L.DomUtil.create('div'),
+        startBtn = createButton('Staring Point', container),
+        destBtn = createButton('Destination', container);
+    L.popup()
+        .setContent(container)
+        .setLatLng(e.latlng)
+        .openOn(map);
+    L.DomEvent.on(startBtn, 'click', function() {
+              control.spliceWaypoints(0, 1, e.latlng);
+              map.closePopup();
+          });
+    L.DomEvent.on(destBtn, 'click', function() {
+        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+        map.closePopup();
+    });
+});
+    </script>
+
 </body>
 </html>
-
-<script>
-	var map = L.map('map').setview([47.25, -122.44], 11);
-
-	L.tileLayer('https://api.tiles.mapbox.com/v9/{id}/{z}/{x}/{y}.png?access_token={accessToken}' , {
-			  maxZoom: 18,
-			  attribution: 'Map data &copy; <a href="https://mapbox//styles/mapbox/outdoors-v9">Outdoors</a> contributors, ' +
-			    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-			  id: 'mapbox.outdoors',
-			  accessToken: 'pk.eyJ1IjoiYWIxMCIsImEiOiJjanN3ZXZua3cwZ3ppNDNwcjd4aGRpMGR0In0.FPuUGMHZEG23LWr-NWhfbA'
-				}).addTo(map);
-	</script>
-		
