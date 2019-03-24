@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html>
-
-	  <title>Lab 4</title> <!--change this so that I know you're carefully reading the comments on this document. Read all the commented code carefully as some of it includes directions for customization that I expect you to complete.-->
+<head>
+	  <title>Lab 5</title>
 
 	  <meta charset="utf-8" />
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><!--These settings are ideal for full-screen mobile use-->
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
 
-		<!--style and external script links-->
-		<link rel="stylesheet" href="styles.css" type="text/css">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
-	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-   crossorigin="">
-	 <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-	 <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+		<style>
+		body {
+		    padding: 0;
+		    margin: 0;
+		}
+		.map {
+				position: absolute;
+		    height: 100%;
+		    width: 100vw;
+		}
+		</style>
 
 </head>
 	<body>
-
-	<div id='map'>
-
-		<div id='menu'>
-		<input id='light-v9' type='radio' name='rtoggle' value='light'>
-		<label for='light'>light</label>
-		<input id='dark-v9' type='radio' name='rtoggle' value='dark'>
-		<label for='dark'>dark</label>
-
-	</div>
-
-	</body>
-
-<script src="javascript.js"></script>
-
+			<div id="map" class="map"></div>
 </body>
 </html>
+
+<script>
+	var map = L.map('map').setview([47.25, -122.44], 11);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v9/{id}/{z}/{x}/{y}.png?access_token={accessToken}' , {
+			  maxZoom: 18,
+			  attribution: 'Map data &copy; <a href="https://mapbox//styles/mapbox/outdoors-v9">Outdoors</a> contributors, ' +
+			    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			  id: 'mapbox.outdoors',
+			  accessToken: 'pk.eyJ1IjoiYWIxMCIsImEiOiJjanN3ZXZua3cwZ3ppNDNwcjd4aGRpMGR0In0.FPuUGMHZEG23LWr-NWhfbA'
+				}).addTo(map);
+	</script>
+		
