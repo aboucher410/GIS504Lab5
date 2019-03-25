@@ -17068,12 +17068,12 @@ module.exports = L.Routing = {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],57:[function(_dereq_,module,exports){
-/* 
+/*
    NOTICE
    Since version 3.2.5, the functionality in this file is by
    default NOT used for localizing OSRM instructions.
    Instead, we rely on the module osrm-text-instructions (https://github.com/Project-OSRM/osrm-text-instructions/).
-   
+
    This file can still be used for other routing backends, or if you specify the
    stepToText option in the OSRMv1 class.
 */
@@ -17226,9 +17226,9 @@ module.exports = L.Routing = {
 				return suffix[i] ? n + suffix[i] : n + 'th';
 			},
 			ui: {
-				startPlaceholder: 'Start',
+				startPlaceholder: 'Starting point',
 				viaPlaceholder: 'Via {viaNumber}',
-				endPlaceholder: 'End'
+				endPlaceholder: 'End point'
 			},
 			units: {
 				meters: 'm',
@@ -17367,7 +17367,7 @@ module.exports = L.Routing = {
 
 		'es': spanish,
 		'sp': spanish,
-		
+
 		'nl': {
 			directions: {
 				N: 'noordelijke',
@@ -17794,7 +17794,7 @@ module.exports = L.Routing = {
 				seconds: 'с'
 			}
 		},
-                
+
                 'pl': {
 			directions: {
 				N: 'północ',
